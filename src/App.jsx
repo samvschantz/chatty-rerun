@@ -26,15 +26,16 @@ class App extends Component {
   }
 
   handleKeydown(evt){
-    console.log("keydown handled?")
+    console.log('keydown being handled?')
     let message = evt.target.value;
     let msgObj  = {};
     let oldMsgArray = this.state.messages;
-    console.log("Old message array: " + oldMsgArray);
+    console.log(typeof oldMsgArray)
     if(evt.key === "Enter"){
       msgObj.username = this.state.currentUser.name;
       msgObj.content  = message;
       let newMsgArray = oldMsgArray.push(msgObj);
+      console.log(newMsgArray);
       this.setState({ messages: newMsgArray});
     }
   }

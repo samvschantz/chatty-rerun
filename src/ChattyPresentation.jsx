@@ -8,6 +8,7 @@ export const ChattyPresentation = props => {
     </nav>
   );
 
+
   const messages = (
     props.messages.map((message, i) => (
       <div className="message" key={i}>
