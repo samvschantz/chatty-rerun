@@ -9,14 +9,18 @@ export const ChattyPresentation = props => {
   );
 
 
-  const messages = (
-    props.messages.map((message, i) => (
-      <div className="message" key={i}>
-        <span className="message-username">{message.username}</span>
-        <span className="message-content">{message.content}</span>
-      </div>
+  let messages = <div/>
+
+  if(props.messages.length > 0){
+    messages = (
+      props.messages.map((message, i) => (
+        <div className="message" key={i}>
+          <span className="message-username">{message.username}</span>
+          <span className="message-content">{message.content}</span>
+        </div>
       ))
-  );
+    )
+  }
 
   const chatbar = (
     <footer className="chatbar">

@@ -16,6 +16,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.ws = new WebSocket("ws://localhost:3001/");
     document.addEventListener("keydown", this.handleKeydown);
     document.addEventListener("onchange", this.onChange);
   }
@@ -26,17 +27,14 @@ class App extends Component {
   }
 
   handleKeydown(evt){
-    console.log('keydown being handled?')
     let message = evt.target.value;
     let msgObj  = {};
-    let oldMsgArray = this.state.messages;
-    console.log(typeof oldMsgArray)
+    let oldMsgArray = this.state.messages
+    msgObj.username = this.state.currentUser.name;
+    msgObj.content  = message;
     if(evt.key === "Enter"){
-      msgObj.username = this.state.currentUser.name;
-      msgObj.content  = message;
-      let newMsgArray = oldMsgArray.push(msgObj);
-      console.log(newMsgArray);
-      this.setState({ messages: newMsgArray});
+      this.ws.send(JSON.stringify(msgObj));
+      this.setState({ messages: [...oldMsgArray, msgObj]});
     }
   }
 
