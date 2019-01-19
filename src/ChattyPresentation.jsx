@@ -10,19 +10,20 @@ export const ChattyPresentation = props => {
 
   const messages = (
     <main className="messages">
-      <div className="message">
+      props.messages.map
+{/*      <div className="message">
         <span className="message-username">Anonymous1</span>
         <span className="message-content">I won't be impressed with technology until I can download food.</span>
       </div>
       <div className="message system">
         Anonymous1 changed their name to nomnom.
-      </div>
+      </div>*/}
     </main>
   );
 
   const chatbar = (
     <footer className="chatbar">
-      <input className="chatbar-username" placeholder="Your Name (Optional)" />
+      <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue={props.currentUser} />
       <input className="chatbar-message" placeholder="Type a message and hit ENTER" />
     </footer>
   );
@@ -30,7 +31,9 @@ export const ChattyPresentation = props => {
   return (
     <div>
     {navbar}
-    {messages}
+    <main className="messages">
+      {messages}
+    </main>
     {chatbar}
     </div>
   );
