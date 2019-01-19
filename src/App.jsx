@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
+import ChattyPresentation from './ChattyPresentation'
 
 class App extends Component {
 
-// render method comes at the end of each component
+  constructor(props){
+    super(props);
+  }
+
   render() {
     return (
-      <h1>Ahhh now i get Hello React :)</h1>
+      return <ChattyPresentation />
     );
   }
 }
+
 export default App;
