@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ChattyPresentation from './ChattyPresentation'
+import {ChattyPresentation} from './ChattyPresentation.jsx'
 
 class App extends Component {
 
@@ -9,7 +9,7 @@ class App extends Component {
 
   render() {
     return (
-      return <ChattyPresentation />
+      <ChattyPresentation />
     );
   }
 }
