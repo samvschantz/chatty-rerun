@@ -7,34 +7,46 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      currentUser: "Anonymous",
+      currentUser: {name: "Anonymous"},
       messages: []
     }
-  }
 
-  componentWillMount(){
-    this.setState({
-      currentUser: messageList.currentUser,
-      messages: messageList.messages
-    });
+    this.handleKeydown  = this.handleKeydown.bind(this);
+    this.onChange       = this.onChange.bind(this);
   }
 
   componentDidMount() {
-  console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage)
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({messages: messages})
-    }, 3000);
+    document.addEventListener("keydown", this.handleKeydown);
+    document.addEventListener("onchange", this.onChange);
+  }
+
+  onChange(evt){
+    let user = evt.target.value;
+    this.setState({ currentUser:{name: user} })
+  }
+
+  handleKeydown(evt){
+    console.log("keydown handled?")
+    let message = evt.target.value;
+    let msgObj  = {};
+    let oldMsgArray = this.state.messages;
+    console.log("Old message array: " + oldMsgArray);
+    if(evt.key === "Enter"){
+      msgObj.username = this.state.currentUser.name;
+      msgObj.content  = message;
+      let newMsgArray = oldMsgArray.push(msgObj);
+      this.setState({ messages: newMsgArray});
+    }
   }
 
   render() {
     return (
-      <ChattyPresentation currentUser={this.state.currentUser} messages={this.state.messages} />
+      <ChattyPresentation
+        currentUser={this.state.currentUser}
+        messages={this.state.messages}
+        handleKeydown={this.handleKeydown}
+        onChange={this.onChange}
+      />
     );
   }
 }
