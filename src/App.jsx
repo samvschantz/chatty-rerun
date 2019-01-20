@@ -17,6 +17,13 @@ class App extends Component {
 
   componentDidMount() {
     this.ws = new WebSocket("ws://localhost:3001/");
+    this.ws.addEventListener('message', (event) => {
+      let msgObj = JSON.parse(event.data);
+      console.log(msgObj);
+      let oldMsgArray = this.state.messages
+      this.setState({ messages: [...oldMsgArray, msgObj]});
+
+    })
     document.addEventListener("keydown", this.handleKeydown);
     document.addEventListener("onchange", this.onChange);
   }
@@ -34,7 +41,6 @@ class App extends Component {
     msgObj.content  = message;
     if(evt.key === "Enter"){
       this.ws.send(JSON.stringify(msgObj));
-      this.setState({ messages: [...oldMsgArray, msgObj]});
     }
   }
 
