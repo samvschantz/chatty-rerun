@@ -23,10 +23,10 @@ export const ChattyPresentation = props => {
   }
 
   const chatbar = (
-    <footer className="chatbar">
-      <input className="chatbar-username" placeholder="Your Name (Optional)" onChange={(evt) => props.onChange(evt)} defaultValue={props.currentUser.name} />
-      <input className="chatbar-message" placeholder="Type a message and hit ENTER" handleKeydown={(evt) => props.handleKeydown(evt)}/>
-    </footer>
+    <form className="chatbar" >
+      <input className="chatbar-username" placeholder="Your Name (Optional)" defaultValue={props.currentUser.name} />
+      <input className="chatbar-message" placeholder="Type a message and hit ENTER" handleKeydown={(evt) => props.handleKeyup(evt)}/>
+    </form>
   );
 
   return (
