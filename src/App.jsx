@@ -9,7 +9,8 @@ class App extends Component {
     this.state = {
       currentUser: {name: "Anonymous"},
       messages: [],
-      newName: ''
+      newName: '',
+      connectedUsers: 0
     }
 
     this.handleKeyup  = this.handleKeyup.bind(this);
@@ -19,28 +20,37 @@ class App extends Component {
     this.ws = new WebSocket("ws://localhost:3001/");
     this.ws.addEventListener('message', (event) => {
       let msgObj = JSON.parse(event.data);
-      console.log(msgObj);
-      if(msgObj.newName !== msgObj.username && msgObj.newName !== ''){
-        msgObj.username = msgObj.newName;
+      if (msgObj.type === 'connectCount'){
+        this.setState({ connectedUsers: msgObj.num });
+      } else {
+        if(msgObj.type === 'notification'){
+          msgObj.username = msgObj.newName;
+        }
+        let oldMsgArray = this.state.messages
+        this.setState({ messages: [...oldMsgArray, msgObj] });
       }
-      let oldMsgArray = this.state.messages
-      this.setState({ messages: [...oldMsgArray, msgObj] });
     })
     document.addEventListener("keyup", this.handleKeyup);
     document.addEventListener("onchange", this.onChange);
   }
 
   handleKeyup(evt){
+    let message        = '';
     if(evt.target.className === 'chatbar-username'){
       this.setState({ newName: evt.target.value });
     }
-    let message        = evt.target.value;
+    if(evt.target.className === 'chatbar-message'){
+      message = evt.target.value;
+    }
     let msgObj         = {};
     let oldMsgArray    = this.state.messages
     msgObj.username    = this.state.currentUser.name;
     msgObj.content     = message;
     msgObj.newName     = this.state.newName;
     if(evt.key === "Enter"){
+      if(evt.target.className === 'chatbar-message'){
+        evt.target.value = '';
+      }
       this.ws.send(JSON.stringify(msgObj));
     }
   }
@@ -48,10 +58,11 @@ class App extends Component {
   render() {
     return (
       <ChattyPresentation
-        currentUser = { this.state.currentUser }
-        messages    = { this.state.messages }
-        handleKeyup = { this.handleKeyup }
-        newName     = { this.state.newName }
+        currentUser    = { this.state.currentUser }
+        messages       = { this.state.messages }
+        handleKeyup    = { this.handleKeyup }
+        newName        = { this.state.newName }
+        connectedUsers = { this.state.connectedUsers }
       />
     );
   }
