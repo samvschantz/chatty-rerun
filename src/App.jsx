@@ -19,7 +19,6 @@ class App extends Component {
     this.ws = new WebSocket("ws://localhost:3001/");
     this.ws.addEventListener('message', (event) => {
       let msgObj = JSON.parse(event.data);
-      console.log(msgObj);
       let oldMsgArray = this.state.messages
       this.setState({ messages: [...oldMsgArray, msgObj]});
 
