@@ -25,6 +25,7 @@ class App extends Component {
       } else {
         if(msgObj.type === 'notification'){
           msgObj.username = msgObj.newName;
+          this.setState({ currentUser:{ name:msgObj.newName }});
         }
         let oldMsgArray = this.state.messages
         this.setState({ messages: [...oldMsgArray, msgObj] });
